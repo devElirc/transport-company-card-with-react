@@ -1,4 +1,4 @@
-FROM node:20.20.0-bookworm
+FROM mcr.microsoft.com/playwright:v1.49.0-jammy
 
 WORKDIR /app
 
@@ -8,17 +8,5 @@ ENV CI=1 \
     npm_config_fund=false \
     npm_config_update_notifier=false
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        bash \
-        ca-certificates \
-        git \
-        openssh-client \
-        python3 \
-        make \
-        g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /app /tests /logs/verifier
-
-CMD ["sleep", "infinity"]
+# Avoid creating reserved harness directories like /tests or /oracle.
+RUN mkdir -p /app /logs/verifier

@@ -19,20 +19,11 @@ npm install --no-fund --no-audit
 
 cd "$TEST_DIR"
 npm install --no-fund --no-audit
-export DEBIAN_FRONTEND=noninteractive
-npx playwright install-deps chromium
-npx playwright install chromium
 
-TEST_EXIT=0
-set +e
 npm run test
-TEST_EXIT=$?
-set -e
 
-if [ "$TEST_EXIT" -eq 0 ]; then
+if [ $? -eq 0 ]; then
   echo 1 > /logs/verifier/reward.txt
 else
   echo 0 > /logs/verifier/reward.txt
 fi
-
-exit "$TEST_EXIT"

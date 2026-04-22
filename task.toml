@@ -8,7 +8,7 @@ author_email = "anonymous"
 difficulty = "medium"
 category = "software-engineering"
 subcategories = [ "ui_building" ]
-number_of_milestones = 3
+number_of_milestones = 0
 # Size of the codebase: minimal -> 0-20 files, small -> 20+ files, large -> 200+ files
 codebase_size = "minimal"
 # Coding languages used in the oracle solution or required by the agent

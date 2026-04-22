@@ -1,18 +1,11 @@
-Build a simple company card with react.js.
+Build a simple company card in React for a transport company.
 
-The card is a transport company profile in three sections.
+The card should show three parts.
 
-In the header, there is a square logo container on the left with a white background and light border. 
-If a logo URL is available, render the logo centered inside the box. 
-If no logo is available, render a fallback block with the first letter of the company name. 
+In the top part, show the company logo if there is a logo URL. If there is no logo, show a fallback with the first letter of the company name. Show the company name and a verified icon. If rating and review data exist, show them too.
 
-On the right part, show the company name on one line with ellipsis overflow, a custom verified icon image beside the name, and a rating row below with five stars plus rating text when review data exists.
+In the middle part, show three highlight labels: Verified, Top Reviewed, and Customer Favorite. These should still look clear on smaller screens.
 
-In the middle section, render three pill badges: Verified, Top Reviewed, and Customer Favorite. The layout must support wrapping on smaller widths without breaking readability.
+In the bottom part, show a trust score based on a value from 0 to 100. Also show three quality metrics: Pricing Accuracy, Communication, and Vehicle Condition. Each one should show its percentage.
 
-Below the badges, add a summary area separated by a light divider. 
-On the left, render an animated circular trust ring based on a 0–100 trust score derived from the average rating. 
-
-At the bottom, render three metric rows: Pricing Accuracy, Communication, and Vehicle Condition. Each row must include a label, an animated striped progress bar, and a percentage value aligned to the right. The bars must animate from 0 to their target values. 
-
-
+Build it in React. Handle missing data safely. Make sure it still works well on smaller screens. Use the provided company data for everything shown in the card.
