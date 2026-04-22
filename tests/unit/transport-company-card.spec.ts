@@ -1,5 +1,3 @@
-import path from "node:path";
-import { pathToFileURL } from "node:url";
 import React from "react";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
@@ -9,8 +7,7 @@ afterEach(() => {
 });
 
 async function loadAppModule() {
-  const appPath = path.join("/app", "src", "App.jsx");
-  return import(pathToFileURL(appPath).href);
+  return import("/app/src/App.jsx");
 }
 
 describe("transport company card unit contract", () => {
