@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+TEST_DIR="${TEST_DIR:-/tests}"
 
 # Check if we're in a valid working directory
 if [ "$PWD" = "/" ]; then
@@ -7,23 +9,30 @@ if [ "$PWD" = "/" ]; then
   exit 1
 fi
 
-# Install test deps, Playwright system deps, and browser at run time (keeps image small).
-cd /tests
-npm install
+if [ ! -f /app/package.json ]; then
+  echo "Error: /app/package.json not found. The submitted app must define its own npm project."
+  exit 1
+fi
+
+cd /app
+npm install --no-fund --no-audit
+
+cd "$TEST_DIR"
+npm install --no-fund --no-audit
 export DEBIAN_FRONTEND=noninteractive
 npx playwright install-deps chromium
 npx playwright install chromium
 
-UNIT_EXIT=0
-E2E_EXIT=0
-npm run test || UNIT_EXIT=$?
-npm run test:e2e || E2E_EXIT=$?
+TEST_EXIT=0
+set +e
+npm run test
+TEST_EXIT=$?
+set -e
 
-# Produce reward file (REQUIRED): pass only if both unit and E2E succeed
-if [ "$UNIT_EXIT" -eq 0 ] && [ "$E2E_EXIT" -eq 0 ]; then
+if [ "$TEST_EXIT" -eq 0 ]; then
   echo 1 > /logs/verifier/reward.txt
 else
   echo 0 > /logs/verifier/reward.txt
 fi
 
-[ "$UNIT_EXIT" -eq 0 ] && [ "$E2E_EXIT" -eq 0 ]
+exit "$TEST_EXIT"

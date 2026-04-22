@@ -1,11 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/**
- * E2E tests run against the app at /app (served by webServer).
- */
 export default defineConfig({
   testDir: "./e2e",
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: true,
   retries: 0,
   workers: 1,
@@ -15,11 +12,10 @@ export default defineConfig({
     trace: "off",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
-  // Serve /app where the solution (and task root in sandbox) puts index.html.
   webServer: {
-    command: "npx serve /app -p 3000",
+    command: "sh -lc 'cd /app && npm run dev -- --host 0.0.0.0 --port 3000'",
     url: "http://localhost:3000",
     reuseExistingServer: false,
-    timeout: 15_000,
+    timeout: 30_000,
   },
 });

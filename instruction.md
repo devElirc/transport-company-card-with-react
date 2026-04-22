@@ -1,9 +1,18 @@
-Build a simple web app at the task root (in the sandbox this is `/app`) so that the main page is served at the root URL (`/`).
+Build a simple company card with react.js.
 
-The page must have:
+The card is a transport company profile in three sections.
 
-1. **Document title** – The `<title>` must be `UI task`.
-2. **Heading** – A heading (e.g. `<h1>`) with the exact text `Hello, UI task`.
-3. **Button** – A button with the visible label `Click me` that can be focused when clicked.
+In the header, there is a square logo container on the left with a white background and light border. 
+If a logo URL is available, render the logo centered inside the box. 
+If no logo is available, render a fallback block with the first letter of the company name. 
 
-Use static HTML (e.g. an `index.html` at the task root). The verifier will serve the task root and run unit and E2E tests against this page.
+On the right part, show the company name on one line with ellipsis overflow, a custom verified icon image beside the name, and a rating row below with five stars plus rating text when review data exists.
+
+In the middle section, render three pill badges: Verified, Top Reviewed, and Customer Favorite. The layout must support wrapping on smaller widths without breaking readability.
+
+Below the badges, add a summary area separated by a light divider. 
+On the left, render an animated circular trust ring based on a 0–100 trust score derived from the average rating. 
+
+At the bottom, render three metric rows: Pricing Accuracy, Communication, and Vehicle Condition. Each row must include a label, an animated striped progress bar, and a percentage value aligned to the right. The bars must animate from 0 to their target values. 
+
+
