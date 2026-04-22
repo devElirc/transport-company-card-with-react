@@ -2,13 +2,12 @@
 
 Template for UI tasks: **unit tests** (Vitest + Testing Library) and **E2E** (Playwright). Dependencies and the Playwright browser are installed at test run time; add `package-lock.json` (and use `npm ci` in `test.sh`) if you need reproducible installs.
 
-**Hello-world task:** The solution creates `index.html` at `/app`. E2E `webServer` serves `/app` so the verifier sees the app. Unit tests assert the expected DOM contract.
+**This task:** The agent implements the React app under `/app`. The Docker image seeds `/app/src/companyData.js` and `/app/public/*.svg`. Playwright starts the Vite dev server from `/app`, and Vitest imports `/app/src/App.jsx` directly for fast DOM contract checks.
 
 ## Layout
 
 - **`unit/`** — Vitest specs (`*.spec.ts`). Framework-agnostic DOM tests by default; add `@testing-library/react` or `@testing-library/vue` for component tests.
 - **`e2e/`** — Playwright specs. Start the app via `webServer` in `playwright.config.ts` (e.g. your dev server from `/app`).
-- **`fixtures/`** — Minimal static page used by the skeleton E2E tests. For real tasks, point Playwright’s `webServer` at your app instead.
 
 ## Commands
 
