@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
+  timeout: 120_000,
   fullyParallel: false,
   forbidOnly: true,
   retries: 0,
@@ -14,7 +15,15 @@ export default defineConfig({
     // running animations (stroke-dashoffset, bar width after keyframes).
     reducedMotion: "no-preference",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        reducedMotion: "no-preference",
+      },
+    },
+  ],
   webServer: {
     command: "sh -lc 'cd /app && npm run dev -- --host 0.0.0.0 --port 3000'",
     url: "http://localhost:3000",

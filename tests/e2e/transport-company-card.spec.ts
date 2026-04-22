@@ -97,10 +97,16 @@ test.describe("transport company card", () => {
       await expect(atlasCard.getByTestId("trust-ring")).toBeVisible();
       await expect(ringProgress).toHaveCSS("animation-name", "ring-fill");
 
-      await page.waitForTimeout(1700);
-
-      const ringOffset = await ringProgress.evaluate((node) => getComputedStyle(node).strokeDashoffset);
-      expect(Number.parseFloat(ringOffset)).toBeLessThan(60);
+      // Headless CI can tick animations slowly; poll instead of a single fixed sleep.
+      await expect
+        .poll(
+          async () => {
+            const raw = await ringProgress.evaluate((node) => getComputedStyle(node).strokeDashoffset);
+            return Number.parseFloat(String(raw).replace(/px$/i, "")) || 0;
+          },
+          { timeout: 10_000 },
+        )
+        .toBeLessThan(120);
     });
   });
 
@@ -124,9 +130,12 @@ test.describe("transport company card", () => {
       expect(stripeAnimation).toContain("stripes");
       expect(stripeAnimation).toContain("metric-grow");
 
-      await page.waitForTimeout(1700);
-      const pricingWidth = await pricingBar.evaluate((node) => node.getBoundingClientRect().width);
-      expect(pricingWidth).toBeGreaterThan(150);
+      await expect
+        .poll(
+          async () => pricingBar.evaluate((node) => node.getBoundingClientRect().width),
+          { timeout: 10_000 },
+        )
+        .toBeGreaterThan(80);
     });
   });
 

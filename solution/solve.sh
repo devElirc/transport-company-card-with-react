@@ -131,16 +131,18 @@ function TrustRing({ score }) {
 
   return (
     <div className="trust-panel">
-      <div
-        className="trust-ring"
-        data-testid="trust-ring"
-        style={{
-          "--ring-offset": `${circumference - (circumference * safeScore) / 100}px`,
-        }}
-      >
+      <div className="trust-ring" data-testid="trust-ring">
         <svg viewBox="0 0 120 120" aria-hidden="true">
           <circle className="ring-track" cx="60" cy="60" r={radius} />
-          <circle className="ring-progress" cx="60" cy="60" r={radius} />
+          <circle
+            className="ring-progress"
+            cx="60"
+            cy="60"
+            r={radius}
+            style={{
+              "--ring-offset": `${circumference - (circumference * safeScore) / 100}px`,
+            }}
+          />
         </svg>
         <div className="trust-score-text">
           <strong>{safeScore}%</strong>
