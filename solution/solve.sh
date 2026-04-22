@@ -548,4 +548,7 @@ body {
 }
 EOF
 
+# Install deps before build — the task image does not ship /app/node_modules, and
+# Harbor runs this script before the verifier’s separate `npm install` in test.sh.
+npm install --no-fund --no-audit
 npm run build >/dev/null

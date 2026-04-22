@@ -31,12 +31,8 @@ write_reward() {
 # Harbor must always receive a reward file, including when tests fail.
 EXIT_CODE=0
 
-# Check if we're in a valid working directory
-if [ "$PWD" = "/" ]; then
-  echo "Error: No working directory set. Please set a WORKDIR in your Dockerfile before running this script." >&2
-  write_reward 0
-  exit 1
-fi
+# Note: Harbor may invoke this script with PWD=/ or another cwd. All paths below
+# are absolute (/app, /tests), so we do not require a particular working directory.
 
 # ---------------------------------------------------------------------------
 # 1) Agent app contract (/app)

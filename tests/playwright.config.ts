@@ -10,12 +10,15 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3000",
     trace: "off",
+    // CI hosts sometimes default prefers-reduced-motion; these tests assert on
+    // running animations (stroke-dashoffset, bar width after keyframes).
+    reducedMotion: "no-preference",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: "sh -lc 'cd /app && npm run dev -- --host 0.0.0.0 --port 3000'",
     url: "http://localhost:3000",
     reuseExistingServer: false,
-    timeout: 30_000,
+    timeout: 120_000,
   },
 });
