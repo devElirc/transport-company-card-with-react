@@ -25,7 +25,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "sh -lc 'cd /app && npm run dev -- --host 0.0.0.0 --port 3000'",
+    command: "npm run dev -- --host 0.0.0.0 --port 3000",
+    cwd: "/app",
     url: "http://localhost:3000",
     reuseExistingServer: false,
     timeout: 120_000,

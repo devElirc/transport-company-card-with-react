@@ -1,8 +1,15 @@
 #!/bin/bash
 set -uo pipefail
 
-TEST_DIR="${TEST_DIR:-/tests}"
+# Resolve harness directory: Harbor often invokes this script from a repo path
+# (e.g. .../tests/test.sh). Defaulting to /tests breaks when /tests is not mounted.
+SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
+TEST_DIR="${TEST_DIR:-$(cd "$(dirname "$SCRIPT_PATH")" && pwd)}"
 REWARD_FILE="/logs/verifier/reward.txt"
+
+# Official Playwright Docker images ship browsers under /ms-playwright; without this,
+# `npm install` may try to download browsers and fail in offline / restricted CI.
+export PLAYWRIGHT_BROWSERS_PATH="${PLAYWRIGHT_BROWSERS_PATH:-/ms-playwright}"
 
 mkdir -p /logs/verifier
 
@@ -52,6 +59,10 @@ fi
 cd /app
 npm install --no-fund --no-audit || EXIT_CODE=$?
 
+if [ "$EXIT_CODE" -eq 0 ]; then
+  npm run build || EXIT_CODE=$?
+fi
+
 # ---------------------------------------------------------------------------
 # 2) Verifier test harness (/tests)
 # ---------------------------------------------------------------------------
@@ -62,6 +73,12 @@ fi
 
 if [ "$EXIT_CODE" -eq 0 ]; then
   npm run test || EXIT_CODE=$?
+fi
+
+if [ "$EXIT_CODE" -ne 0 ]; then
+  echo "VERIFIER_FAILED exit=${EXIT_CODE} TEST_DIR=${TEST_DIR} PWD=$(pwd)" >&2
+  ls -la "${TEST_DIR}" >&2 || true
+  ls -la /app >&2 || true
 fi
 
 write_reward "$EXIT_CODE"
