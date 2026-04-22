@@ -1,48 +1,41 @@
-Build simple transport company cards in React.
+Build transport company cards in React with Vite.
+Please read /app/src/companyData.js first. 
 
-Set up the project inside /app with Vite + React. Make sure /app/package.json is included, and npm run dev runs correctly from /app.
+It already exports companies, and you must render one card for each company in that array. 
+There are two companies in the file, and you should keep their names exactly the same: Atlas Freight Lines International and Nova Transport Partners.
+Use the two companies from the data file exactly as they are. 
+Do not create your own company names, and do not render only one generic card.
 
-The company data is already in /app/src/companyData.js. Do not edit or replace that file. 
+Use a real <article> element for each company card, and set it up so the company name is used as the label, for example <article aria-label={company.name}>.
+Create the app inside /app and make sure it is a working React + Vite project. 
+The /app/package.json file should exist, and npm install, npm run dev, and npm run build should all work when run from /app.
+Use this project structure: /app/package.json, /app/vite.config.js or /app/vite.config.ts, /app/index.html, /app/src/main.jsx, and /app/src/App.jsx.
+In App.jsx, import companies from ./companyData and render one card per company.
+Do not edit /app/src/companyData.js. 
+Use it as the source for all displayed company data. 
+The provided assets are already available in /app/public, including the logo and verified badge files.
 
-Import the companies export from it, and render one card for each company. 
+Each card should have three sections: top, middle, and bottom.
 
-Each card should use a semantic article, and its accessible name should match the company name from the data file. 
+In the top section, show the company logo when logoUrl is available. 
+The image alt text should include the company name and end with logo, for example Atlas Freight Lines International logo.
+If logoUrl is empty, do not render a logo image. Show the first letter of the company name instead, and add an accessible label like Nova Transport Partners initial.
+Show the company name in an <h2>. On desktop, keep it on one line and use ellipsis if it gets too long.
+Next to the company name, show the verified badge. Use company.verifiedIconUrl from the data, not a hardcoded path. The image alt text must be exactly Verified company.
+Show the rating row only when both averageRating and reviewCount exist. Use five stars, where the filled star count is based on Math.round(averageRating). 
+The text format should look like this: 4.6 (214 reviews).
+If either rating value is missing, do not render the rating row.
 
-Render one card for each company from the data file, including companies like Atlas Freight Lines International and Nova Transport Partners.
+In the middle section, show these three labels exactly: Verified, Top Reviewed, and Customer Favorite. 
+Make sure the badges wrap cleanly on smaller screens.
 
-The SVG files are already available in /app/public/atlas-logo.svg and /app/public/verified-badge.svg.
+In the bottom section, show a Trust Score based on Math.round((averageRating / 5) * 100). 
+Keep the result between 0 and 100, display it as a whole-number percentage, and show it with a circular progress ring. 
+Animate the ring using a CSS keyframe named ring-fill.
+Also show these three metric rows: Pricing Accuracy, Communication, and Vehicle Condition. 
+Each row should display its percentage and include a progress element with role="progressbar" and aria-valuenow set to the whole-number percent from company.metrics. 
+Animate the metric bars using CSS keyframes named metric-grow and stripes.
+Add a mobile rule such as @media (max-width: 640px) so the badges and metric rows stay readable on smaller screens.
+Write the UI safely so missing values do not break the app. Use guards, optional chaining, or fallback values where needed.
 
-Each card should have three sections.
-
-In the top section, show the company logo when logoUrl exists. 
-Use <img> element, and make sure its accessible name includes the company name and ends with logo, like Atlas Freight Lines International logo. 
-If logoUrl is empty, do not render a logo image. 
-Show a simple fallback with the first letter of the company name instead, and give it an accessible name like Nova Transport Partners initial.
-
-Show the company name in an h2. Long names should stay on one line and use ellipsis on normal desktop widths. 
-Show the verified icon from verifiedIconUrl with alt text exactly Verified company.
-
-If both averageRating and reviewCount are present, show a rating row with five star characters. 
-The number of filled stars should come from Math.round(averageRating) out of five. 
-Next to that, show the rating text in this exact format: 4.6 (214 reviews). 
-Use one decimal for the rating, a whole number for the review count, and keep the spacing and parentheses exactly like that. 
-If either value is missing, do not show the rating row.
-
-In the middle section, show these three labels: Verified, Top Reviewed, and Customer Favorite. On small screens, they should wrap cleanly.
-
-In the bottom section, show a whole-number trust score from 0 to 100 with the label Trust Score. 
-Calculate it with Math.round((averageRating / 5) * 100), then clamp the result to the 0–100 range. 
-Show it with a circular progress ring, and animate the ring stroke with a CSS keyframe named ring-fill. 
-This section should be clearly separated from the badges above, for example with a top border and a simple left-aligned layout.
-
-Also show these three quality metrics: Pricing Accuracy, Communication, and Vehicle Condition. 
-Each row should show the percent text and include an accessible progress bar with role="progressbar" and aria-valuenow set to the whole-number percent. 
-Animate the fills with CSS keyframes named metric-grow and stripes.
-
-Build everything in React. Handle missing data safely so the UI does not break. 
-
-Add a small-screen rule such as @media (max-width: 640px) so the metric area stays readable on narrow screens.
-
-Before you finish, run npm run build from /app and fix any build errors.
-
-Use /app/src/companyData.js as the only source for all company-specific values shown in the UI.
+Before you finish, run npm run build inside /app and fix any issues until the build succeeds.

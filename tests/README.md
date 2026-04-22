@@ -2,7 +2,7 @@
 
 Template for UI tasks: **unit tests** (Vitest + Testing Library) and **E2E** (Playwright). Dependencies and the Playwright browser are installed at test run time; add `package-lock.json` (and use `npm ci` in `test.sh`) if you need reproducible installs.
 
-**This task:** The agent implements the React app under `/app`. The Docker image seeds `/app/src/companyData.js` and `/app/public/*.svg`. Playwright starts the Vite dev server from `/app`, and Vitest imports `/app/src/App.jsx` directly for fast DOM contract checks.
+**This task:** The agent implements the React app under `/app` (the verifier **requires** `/app/package.json`; see `instruction.md` → *Verifier entrypoint and test files*). The Docker image seeds `/app/src/companyData.js` and `/app/public/*.svg`. `tests/test.sh` runs `npm run test`, which executes **Vitest** (`unit/transport-company-card.spec.ts`) then **Playwright** (`e2e/transport-company-card.spec.ts`).
 
 ## Layout
 
@@ -12,8 +12,9 @@ Template for UI tasks: **unit tests** (Vitest + Testing Library) and **E2E** (Pl
 ## Commands
 
 ```bash
-npm run test       # Unit tests (Vitest)
-npm run test:e2e    # E2E tests (Playwright; starts webServer automatically)
+npm run test        # Unit tests (Vitest) then E2E (Playwright); used by tests/test.sh
+npm run test:unit   # Vitest only
+npm run test:e2e    # Playwright only (starts webServer automatically)
 ```
 
 ## For React or Vue

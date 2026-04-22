@@ -8,11 +8,16 @@ mkdir -p /logs/verifier
 
 # Verifier entrypoint (Harbor runs this script).
 #
-# Behavioral verification is implemented as:
-# - Vitest + Testing Library unit tests: /tests/unit/transport-company-card.spec.ts
-# - Playwright E2E tests: /tests/e2e/transport-company-card.spec.ts
+# Contract checks:
+# 1) Agent-created npm app at /app (package.json + installable deps).
+# 2) Seeded read-only data at /app/src/companyData.js (two named companies).
+# 3) Vitest + Testing Library: /tests/unit/transport-company-card.spec.ts
+#    — articles, logos/fallbacks, ratings, badges, trust score, metrics, a11y.
+# 4) Playwright: /tests/e2e/transport-company-card.spec.ts
+#    — CSS layout, ellipsis, animations, narrow viewport behavior.
 #
-# This script only orchestrates installs and runs `npm run test` from /tests.
+# Orchestration: npm install in /app, then npm install && npm run test in /tests
+# (see tests/package.json: test runs unit then e2e).
 
 write_reward() {
   local code="$1"
